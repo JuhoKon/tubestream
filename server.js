@@ -59,7 +59,7 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.get("/stream/:videoId", auth, getAudioStream);
+app.get("/stream/:videoId", getAudioStream);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
