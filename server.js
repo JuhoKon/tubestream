@@ -1,6 +1,7 @@
 const app = require("express")();
 const ytdl = require("ytdl-core");
 const auth = require("./auth");
+const cors = require("cors");
 
 const getAudioStream = async (req, res) => {
   try {
@@ -52,7 +53,12 @@ const getAudioStream = async (req, res) => {
     return res.status(500).send();
   }
 };
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
+app.use(cors(corsOptions));
 app.get("/stream/:videoId", auth, getAudioStream);
 
 const PORT = process.env.PORT || 4000;
