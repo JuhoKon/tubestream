@@ -1,5 +1,6 @@
 const app = require("express")();
 const ytdl = require("ytdl-core");
+const auth = require("./auth");
 
 const getAudioStream = async (req, res) => {
   try {
@@ -22,11 +23,9 @@ const getAudioStream = async (req, res) => {
     // define headers
     const rangeHeader = req.headers.range || null;
 
-    console.log(`rangeHeader -->`, rangeHeader);
     const rangePosition = rangeHeader
       ? rangeHeader.replace(/bytes=/, "").split("-")
       : null;
-    console.log(`rangePosition`, rangePosition);
     const startRange = rangePosition ? parseInt(rangePosition[0], 10) : 0;
     const endRange =
       rangePosition && rangePosition[1].length > 0
@@ -54,7 +53,9 @@ const getAudioStream = async (req, res) => {
   }
 };
 
-app.get("/stream/:videoId", getAudioStream);
+app.get("/stream/:videoId", auth, getAudioStream);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Running on ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Running on ${PORT}`);
+});
