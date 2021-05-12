@@ -2,7 +2,8 @@ const app = require("express")();
 const ytdl = require("ytdl-core");
 const auth = require("./auth");
 const cors = require("cors");
-
+const COOKIE =
+  "VISITOR_INFO1_LIVE=0GEZlpfV7wE; CONSENT=YES+FI.fi+V11+BX; LOGIN_INFO=AFmmF2swRgIhAPuvwSQMMV4Yq0WLDJ85mrYiXW3-SbH_4GtZPi5ACP94AiEAhHXTkh8xfWpRc7fso9jlk7p4-6KjdmajovygQ0ILPeo:QUQ3MjNmekFDR3ZiWGF1d3MyaUlMN2duSF95SnNZVUs1Nm1tc3FseWlaX2ZhcDRBb3dXRDZ1azBKY0JxRFMzZHpBVnJBZ3l0WkNwRmtFOGNCeHpaNFlJZldNeDZUckpGSWE2anc1c0pscnl5YjdDUmtvWjJESDgxbGFzcVpHdDF0UVBKZVdtdkoyX0JuSzFoRjBMcEt3XzRFQ01OWkt0ZFItZ3pqM1d4b1o4Z0MyMVJjc2FBZWhn; YSC=F773h_kc30g; wide=1; _gcl_au=1.1.1857650955.1620485292; PREF=tz=Europe.Helsinki&f5=20000&volume=30; SID=9geGTbWOeuEeCDZ9rybRJpD5lcszAxUsgl-CqpXGNB4E3xSMGroZKvy4Pvql01p1KFn4Hw.; __Secure-3PSID=9geGTbWOeuEeCDZ9rybRJpD5lcszAxUsgl-CqpXGNB4E3xSMzAqCiWNhM3rK9NddtdVJew.; HSID=AY5YqfYfQjVzjmyx9; SSID=A4uf5h2QhtYTcsTuv; APISID=qSjdToLPexADpNGk/AmTFSKr7OvrL2OEYm; SAPISID=oZn_wPg4DdvHVZPF/Au906rdnmyqGxAT6d; __Secure-3PAPISID=oZn_wPg4DdvHVZPF/Au906rdnmyqGxAT6d; SIDCC=AJi4QfHILmkipLJ20F-lU6uCIDTgsYZBWL-dIujlOuSa3nW1i0PdSFKvNxnyMW29OU7-Hw7jxQ; __Secure-3PSIDCC=AJi4QfFKSHuOSC0Jm3BSprZ64jm1UfQcxx-ch4lytl7aEC1CPtCfHpC1n-j9a4dU1dWPhb5Y3qRV";
 const getAudioStream = async (req, res) => {
   try {
     const { videoId } = req.params;
@@ -44,6 +45,9 @@ const getAudioStream = async (req, res) => {
 
     const range = { start: startRange, end: endRange };
     const audioStream = ytdl(videoId, {
+      headers: {
+        cookie: COOKIE,
+      },
       filter: (format) => format.itag === itag,
       range,
     });
